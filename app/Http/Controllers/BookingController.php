@@ -9,29 +9,35 @@ class BookingController extends Controller
 {
 
     public function index(){
-        $bookings = auth()->user()->bookings()->where('date_time','>',now())->get();
+        $bookings = auth()->user()->bookings()->upcoming()->get();
+
+       
         return view('member.upcoming', compact('bookings'));
 
     }
 
     public function create(){
-        $scheduled_classes = ScheduledClass::where('date_time','>',now())
+
+        //remove classes which are booked
+        $scheduled_classes = ScheduledClass::upcoming()
         ->with('class_type','instructor')
-        ->oldest()
+        ->notBooked()
+        ->oldest('date_time')
         ->get();
-        // return($scheduled_classes);
         return view('member.book',compact('scheduled_classes'));
     }
 
     public function store(Request $request){
-        // dd($request->all());
         //attach relationship
         auth()->user()->bookings()->attach($request->scheduled_class_id);
         return redirect()->route('booking.index');
     }
 
     public function destroy(int $id){
+        // dd("canceling class");
+
         auth()->user()->bookings()->detach($id);
+       
         return redirect()->route('booking.index');
 
     }

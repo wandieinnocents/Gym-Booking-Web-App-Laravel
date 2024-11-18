@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         
         // gate for instructor schedule class
+        //gates and policies
         Gate::define('schedule-class', function (User $user) {
             return $user->role === 'instructor';
         });
