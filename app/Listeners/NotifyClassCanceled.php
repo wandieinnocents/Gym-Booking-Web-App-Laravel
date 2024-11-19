@@ -19,6 +19,7 @@ class NotifyClassCanceled
     /**
      * Handle the event.
      */
+    
     public function handle(ClassCanceled $event): void
     {
         $scheduled_class = $event->scheduled_class;
