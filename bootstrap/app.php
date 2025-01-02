@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'checkUserRole' => \App\Http\Middleware\checkUserRole::class,
+            'web' => \App\Http\Middleware\checkUserRole::class,
+            'tenantdb' => \App\Http\Middleware\TenantMiddleware::class,
+            
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -12,6 +12,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth'])->name('dashboard');
+Route::get('/landing',[ DashboardController::class,'landing'])->name('landing')->middleware(['tenantdb']);
+
+
 
 
 //instructor routes

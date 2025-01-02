@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
 
-        
+    
         switch(auth()->user()->role){
             case 'instructor':
                 return redirect()->route('instructor.dashboard');
@@ -35,5 +35,11 @@ class DashboardController extends Controller
                 
 
         }
+    }
+
+
+    public function landing(){
+        
+        return view('landing');
     }
 }
