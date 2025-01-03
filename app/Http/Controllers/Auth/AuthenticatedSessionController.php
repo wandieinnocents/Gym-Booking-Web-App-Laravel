@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Artisan;
+
 
 
 class AuthenticatedSessionController extends Controller
@@ -33,27 +35,11 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request)
 
     {
+        
         $tenant_code = $request->input('code'); 
         $tenant = Tenant::where('code', $tenant_code)->first();
-
-        // $current_database = DB::connection()->getDatabaseName();
-        // $users = User::all();
-        // Session::forget('tenant');
-        // dd('Current Database:', $current_database, 'Users:', $users, session()->all());
         
         if($tenant && $tenant->code == $request->input('code') && $tenant->database_password == $request->input('database_password')) {
-
-            // Set database connection dynamically
-            // Config::set('database.connections.tenant', [
-            //     'driver' => 'mysql',
-            //     'host' => env('DB_HOST', '127.0.0.1'),
-            //     'port' => env('DB_PORT', '3306'),
-            //     'database' => $tenant->database_name,
-            //     'username' => $tenant->database_username,
-            //     'password' => $tenant->database_password,
-            //     'charset' => 'utf8mb4',
-            //     'collation' => 'utf8mb4_unicode_ci',
-            // ]);
 
              // Set database connection dynamically
              $tenantConnection = [
@@ -70,16 +56,16 @@ class AuthenticatedSessionController extends Controller
             Config::set('database.connections.tenant', $tenantConnection);
 
             DB::purge('tenant'); // Reset the tenant connection
+            DB::setDefaultConnection('tenant'); // Set the tenant connection as default
             DB::reconnect('tenant'); // Reconnect to the tenant database
-            DB::setDefaultConnection('tenant');
 
-            $current_database = DB::connection()->getDatabaseName();
-            $users = User::all();
+            $current_database = DB::connection('tenant')->getDatabaseName();
             $users = DB::connection('tenant')->table('users')->get();
-            dd('Current Database:', $current_database, 'Users:', $users);
-            \Session::put('tenant', $tenant , );
+            // dd('Current Database:', $current_database, 'Users:', $users);
+            \Session::put('tenant', $tenant);
             \Session::put('tenant_connection', $tenantConnection);
 
+           
 
             return redirect()->route('landing');
         } else {

@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+
 
 class UserSeeder extends Seeder
 {
@@ -13,6 +17,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
+       
+        $current_database = DB::connection()->getDatabaseName();
+        dd($current_database);
+
         User::factory()->create([
             'name' => 'member',
             'email' => 'member@gmail.com'

@@ -13,12 +13,12 @@ class TenantMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        //set the current tenant connection
         if (Session::has('tenant_connection')) {
-            // Set the tenant database connection
             Config::set('database.connections.tenant', Session::get('tenant_connection'));
             DB::purge('tenant'); // Reset the tenant connection
             DB::reconnect('tenant'); // Reconnect to the tenant database
-            DB::setDefaultConnection('tenant');
+            DB::setDefaultConnection('tenant'); //set current tenant connection as default
         }
 
         return $next($request);

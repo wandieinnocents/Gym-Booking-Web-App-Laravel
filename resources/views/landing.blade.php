@@ -13,8 +13,6 @@
     <p>Tenant DB name: {{ session('tenant')->database_name ?? '' }}</p>
     <p>Tenant DB user: {{ session('tenant')->database_username  ?? ''}}</p>
 
-    
-
     {{-- @dd($data) --}}
 
     @php
@@ -25,9 +23,9 @@
     // DB::setDefaultConnection('tenant');
 
     // Retrieve users from the tenant database
-    // $users = \App\Models\User::all()->toArray();
-    // $current_database = DB::connection()->getDatabaseName();
-    // dd($current_database, $users);
+    $users = \App\Models\User::all()->toArray();
+    $current_database = DB::connection()->getDatabaseName();
+    dd("DB:",$current_database, "USERS",$users);
 @endphp
     
 @endif

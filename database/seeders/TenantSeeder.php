@@ -17,6 +17,7 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
             // Create tenants with their respective database credentials
+            
             DB::table('tenants')->updateOrInsert(
                 ['code' => 'T001'], 
                 [

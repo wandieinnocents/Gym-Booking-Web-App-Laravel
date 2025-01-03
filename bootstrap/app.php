@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'web' => \App\Http\Middleware\checkUserRole::class,
             'tenantdb' => \App\Http\Middleware\TenantMiddleware::class,
             
+            
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

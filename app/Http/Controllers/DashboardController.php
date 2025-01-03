@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -39,7 +40,14 @@ class DashboardController extends Controller
 
 
     public function landing(){
-        
         return view('landing');
     }
+
+    public function test2(){
+        $users = User::all();
+        dd($users);
+        return view('landing');
+    }
+
+
 }

@@ -43,6 +43,9 @@ class TenantController extends Controller
         DB::setDefaultConnection('tenant');
         Artisan::call('migrate', ['--database' => 'tenant']);
 
+        // // Run seeders
+        // Artisan::call('db:seed', ['--database' => 'tenant']);
+
         return "Tenant {$tenantName} created successfully with database {$databaseName}.";
     }
 }
